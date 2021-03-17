@@ -1,4 +1,10 @@
-const sf = @import("sfml");
+const sf = struct {
+    pub usingnamespace @import("sfml");
+    pub usingnamespace system;
+    pub usingnamespace graphics;
+    pub usingnamespace audio;
+};
+
 usingnamespace @import("paddle.zig");
 const Score = @import("score.zig");
 
@@ -10,18 +16,18 @@ pub const Ball = struct {
     var hit_sound_buffer: sf.SoundBuffer = undefined;
     var hit_sound: sf.Sound = undefined;
 
-    pub fn init(paddles: []const Paddle) !Ball {
+    pub fn create(paddles: []const Paddle) !Ball {
         if (Ball.texture == null) {
-            texture = try sf.Texture.initFromFile("ball.png");
+            texture = try sf.Texture.createFromFile("ball.png");
 
-            fail_sound_buffer = try sf.SoundBuffer.initFromFile("fail.wav");
-            hit_sound_buffer = try sf.SoundBuffer.initFromFile("click.wav");
+            fail_sound_buffer = try sf.SoundBuffer.createFromFile("fail.wav");
+            hit_sound_buffer = try sf.SoundBuffer.createFromFile("click.wav");
 
-            fail_sound = try sf.Sound.initFromBuffer(fail_sound_buffer);
-            hit_sound = try sf.Sound.initFromBuffer(hit_sound_buffer);
+            fail_sound = try sf.Sound.createFromBuffer(fail_sound_buffer);
+            hit_sound = try sf.Sound.createFromBuffer(hit_sound_buffer);
         }
 
-        var rect = try sf.RectangleShape.init(.{ .x = 20, .y = 20 });
+        var rect = try sf.RectangleShape.create(.{ .x = 20, .y = 20 });
         rect.setOrigin(.{ .x = 10, .y = 10 });
         rect.setFillColor(sf.Color.White);
         rect.setTexture(Ball.texture.?);
@@ -37,8 +43,8 @@ pub const Ball = struct {
         return new;
     }
 
-    pub fn deinit(self: Ball) void {
-        self.rectangle.deinit();
+    pub fn destroy(self: Ball) void {
+        self.rectangle.destroy();
     }
 
     fn reset(self: *Ball) void {
