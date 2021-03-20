@@ -77,7 +77,7 @@ pub fn main() anyerror!void {
             pause = true;
             Score.update_score = false;
             var str = try std.fmt.bufPrintZ(score_buf[0..], "{} : {}", .{ Score.left_score, Score.right_score });
-            score_text.setText(str);
+            score_text.setString(str);
         }
 
         var delta = clock.restart().asSeconds();
