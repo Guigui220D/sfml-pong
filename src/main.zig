@@ -49,25 +49,32 @@ pub fn main() anyerror!void {
     score_text.setPosition(.{ .x = 350, .y = 10 });
     var score_buf: [32]u8 = undefined;
 
-    var pause_text = try sf.Text.createWithText("Press space to play game", font, 50);
+    var pause_text = try sf.Text.createWithText("Press space to play pong", font, 50);
     defer pause_text.destroy();
     pause_text.setFillColor(sf.Color.Green);
     pause_text.setOutlineColor(sf.Color.Black);
     pause_text.setOutlineThickness(2);
-    pause_text.setPosition(.{ .x = 350, .y = 10 });
+    pause_text.setPosition(.{ .x = 20, .y = 200 });
+
+    var pause: bool = true;
 
     var clock = try sf.Clock.create();
     defer clock.destroy();
 
     while (window.isOpen()) {
         while (window.pollEvent()) |event| {
-            if (event == .closed) {
-                stdout.print("Left Player: {} points\nRight Player: {} points\n", .{ Score.left_score, Score.right_score }) catch {};
-                window.close();
+            switch (event) {
+                .closed => window.close(),
+                .keyReleased => |kev| {
+                    if (kev.code == sf.keyboard.KeyCode.Space)
+                        pause = !pause;
+                },
+                else => {}
             }
         }
 
         if (Score.update_score) {
+            pause = true;
             Score.update_score = false;
             var str = try std.fmt.bufPrintZ(score_buf[0..], "{} : {}", .{ Score.left_score, Score.right_score });
             score_text.setText(str);
@@ -75,10 +82,12 @@ pub fn main() anyerror!void {
 
         var delta = clock.restart().asSeconds();
 
-        for (paddles) |p|
-            p.update(delta);
+        if (!pause) {
+            for (paddles) |p|
+                p.update(delta);
 
-        ball.update(delta);
+            ball.update(delta);
+        }
 
         background.setPosition(ball.rectangle.getPosition().scale(0.1));
 
@@ -88,7 +97,8 @@ pub fn main() anyerror!void {
             window.draw(p.rectangle, null);
         window.draw(ball.rectangle, null);
         window.draw(score_text, null);
-        //window.draw(pause_text, null);
+        if (pause)
+        window.draw(pause_text, null);
         window.display();
     }
 }
