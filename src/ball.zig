@@ -85,8 +85,7 @@ pub const Ball = struct {
             if (ball_rect.intersects(paddle_rect) != null) {
                 hit_sound.play();
                 pos.x = prev_x;
-                self.velocity.x *= -1;
-                self.velocity = self.velocity.scale(1.02);
+                self.velocity.x *= -1.04;
             }  
         }
 

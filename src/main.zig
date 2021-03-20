@@ -46,7 +46,7 @@ pub fn main() anyerror!void {
     score_text.setFillColor(sf.Color.Cyan);
     score_text.setOutlineColor(sf.Color.Black);
     score_text.setOutlineThickness(2);
-    score_text.setPosition(.{ .x = 350, .y = 10 });
+    score_text.setPosition(.{ .x = 400, .y = 30 });
     var score_buf: [32]u8 = undefined;
 
     var pause_text = try sf.Text.createWithText("Press space to play pong", font, 50);
@@ -54,7 +54,13 @@ pub fn main() anyerror!void {
     pause_text.setFillColor(sf.Color.Green);
     pause_text.setOutlineColor(sf.Color.Black);
     pause_text.setOutlineThickness(2);
-    pause_text.setPosition(.{ .x = 20, .y = 200 });
+    pause_text.setPosition(.{ .x = 400, .y = 300 });
+    {
+        const bounds = pause_text.getGlobalBounds();
+        const size = sf.Vector2f{ .x = bounds.width, .y = bounds.height };
+        pause_text.setOrigin(size.scale(0.5));
+    }
+    
 
     var pause: bool = true;
 
@@ -76,8 +82,11 @@ pub fn main() anyerror!void {
         if (Score.update_score) {
             pause = true;
             Score.update_score = false;
-            var str = try std.fmt.bufPrintZ(score_buf[0..], "{} : {}", .{ Score.left_score, Score.right_score });
+            const str = try std.fmt.bufPrintZ(score_buf[0..], "{} : {}", .{ Score.left_score, Score.right_score });
             score_text.setString(str);
+            const bounds = score_text.getGlobalBounds();
+            const size = sf.Vector2f{ .x = bounds.width, .y = bounds.height };
+            score_text.setOrigin(size.scale(0.5));
         }
 
         var delta = clock.restart().asSeconds();
