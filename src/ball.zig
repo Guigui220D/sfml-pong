@@ -93,12 +93,14 @@ pub const Ball = struct {
         // Point scored
         if (pos.x < 0) {
             Score.right_score += 1;
+            Score.update_score = true;
             fail_sound.play();
             self.reset();
             pos = self.rectangle.getPosition();
         }
         if (pos.x > 800) {
             Score.left_score += 1;
+            Score.update_score = true;
             fail_sound.play();
             self.reset();
             pos = self.rectangle.getPosition();

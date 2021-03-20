@@ -39,27 +39,22 @@ pub fn main() anyerror!void {
     var font = try sf.Font.createFromFile("Clickuper.ttf");
     defer font.destroy();
 
-    var score_text = try sf.Text.createWithText("0 : 0", font, 50);
+    var score_text = try sf.Text.create();
     defer score_text.destroy();
+    score_text.setFont(font);
+    score_text.setCharacterSize(50);
     score_text.setFillColor(sf.Color.Cyan);
     score_text.setOutlineColor(sf.Color.Black);
     score_text.setOutlineThickness(2);
+    score_text.setPosition(.{ .x = 350, .y = 10 });
+    var score_buf: [32]u8 = undefined;
 
     var pause_text = try sf.Text.createWithText("Press space to play game", font, 50);
     defer pause_text.destroy();
     pause_text.setFillColor(sf.Color.Green);
     pause_text.setOutlineColor(sf.Color.Black);
     pause_text.setOutlineThickness(2);
-    {
-        var bounds = pause_text.getLocalBounds();
-        var center = sf.Vector2f{
-            .x = bounds.width / 2,
-            .y = bounds.height / 2
-        };
-        std.debug.print("{}\n", .{bounds});
-        //pause_text.setOrigin(center);
-    }
-    
+    pause_text.setPosition(.{ .x = 350, .y = 10 });
 
     var clock = try sf.Clock.create();
     defer clock.destroy();
@@ -70,6 +65,12 @@ pub fn main() anyerror!void {
                 stdout.print("Left Player: {} points\nRight Player: {} points\n", .{ Score.left_score, Score.right_score }) catch {};
                 window.close();
             }
+        }
+
+        if (Score.update_score) {
+            Score.update_score = false;
+            var str = try std.fmt.bufPrintZ(score_buf[0..], "{} : {}", .{ Score.left_score, Score.right_score });
+            score_text.setText(str);
         }
 
         var delta = clock.restart().asSeconds();
@@ -86,7 +87,7 @@ pub fn main() anyerror!void {
         for (paddles) |p|
             window.draw(p.rectangle, null);
         window.draw(ball.rectangle, null);
-        //window.draw(score_text, null);
+        window.draw(score_text, null);
         //window.draw(pause_text, null);
         window.display();
     }
