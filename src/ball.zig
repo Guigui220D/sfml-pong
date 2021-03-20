@@ -9,7 +9,6 @@ usingnamespace @import("paddle.zig");
 const Score = @import("score.zig");
 
 pub const Ball = struct {
-
     var texture: ?sf.Texture = null;
     var fail_sound_buffer: sf.SoundBuffer = undefined;
     var fail_sound: sf.Sound = undefined;
@@ -67,22 +66,8 @@ pub const Ball = struct {
             self.velocity.y *= -1;
         }
         // Paddle collisions
-        var ball_rect = sf.FloatRect.init(
-            pos.x - 5,
-            pos.y - 5,
-            10,
-            10
-        );
         for (self.paddles) |p| {
-            var p_size = p.rectangle.getSize();
-            var p_pos = p.rectangle.getPosition();
-            var paddle_rect = sf.FloatRect.init(
-                p_pos.x - p_size.x / 2,
-                p_pos.y - p_size.y / 2,
-                p_size.x,
-                p_size.y
-            );
-            if (ball_rect.intersects(paddle_rect) != null) {
+            if (self.rectangle.getGlobalBounds().intersects(p.rectangle.getGlobalBounds())) |_| {
                 hit_sound.play();
                 pos.x = prev_x;
                 self.velocity.x *= -1.04;
