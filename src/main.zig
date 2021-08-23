@@ -13,9 +13,9 @@ usingnamespace @import("paddle.zig");
 usingnamespace @import("ball.zig");
 
 pub fn main() anyerror!void {
-    const stdout = std.io.getStdOut().writer();
+    //const stdout = std.io.getStdOut().writer();
 
-    var window = try sf.RenderWindow.create(.{ .x = 800, .y = 600 }, 32, "SFML Pong in zig!");
+    var window = try sf.RenderWindow.create(.{ .x = 800, .y = 600 }, 32, "SFML Pong in zig!", sf.Style.defaultStyle);
     defer window.destroy();
     window.setFramerateLimit(60);
 
