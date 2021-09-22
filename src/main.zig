@@ -1,16 +1,16 @@
 const std = @import("std");
 const sf = struct {
     pub usingnamespace @import("sfml");
-    pub usingnamespace window;
-    pub usingnamespace graphics;
-    pub usingnamespace audio;
-    pub usingnamespace system;
+    pub usingnamespace sf.window;
+    pub usingnamespace sf.graphics;
+    pub usingnamespace sf.audio;
+    pub usingnamespace sf.system;
 };
 
-const Score = @import("score.zig");
+const score = @import("score.zig");
 
-usingnamespace @import("paddle.zig");
-usingnamespace @import("ball.zig");
+const Paddle = @import("Paddle.zig");
+const Ball = @import("Ball.zig");
 
 pub fn main() anyerror!void {
     //const stdout = std.io.getStdOut().writer();
@@ -79,10 +79,10 @@ pub fn main() anyerror!void {
             }
         }
 
-        if (Score.update_score) {
+        if (score.update_score) {
             pause = true;
-            Score.update_score = false;
-            const str = try std.fmt.bufPrintZ(score_buf[0..], "{} : {}", .{ Score.left_score, Score.right_score });
+            score.update_score = false;
+            const str = try std.fmt.bufPrintZ(score_buf[0..], "{} : {}", .{ score.left_score, score.right_score });
             score_text.setString(str);
             const bounds = score_text.getGlobalBounds();
             const size = sf.Vector2f{ .x = bounds.width, .y = bounds.height };
