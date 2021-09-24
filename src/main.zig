@@ -15,7 +15,7 @@ const Ball = @import("Ball.zig");
 pub fn main() anyerror!void {
     //const stdout = std.io.getStdOut().writer();
 
-    var window = try sf.RenderWindow.create(.{ .x = 800, .y = 600 }, 32, "SFML Pong in zig!", sf.Style.defaultStyle);
+    var window = try sf.RenderWindow.create(.{ .x = 800, .y = 600 }, 32, "SFML Pong in zig!", sf.Style.defaultStyle, null);
     defer window.destroy();
     window.setFramerateLimit(60);
 
