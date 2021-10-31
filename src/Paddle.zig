@@ -26,11 +26,11 @@ pub fn create(x_pos: f32, up: sf.window.keyboard.KeyCode, down: sf.window.keyboa
     };
 }
 
-pub fn destroy(self: Paddle) void {
+pub fn destroy(self: *Paddle) void {
     self.rectangle.destroy();
 }
 
-pub fn update(self: Paddle, delta: f32) void {
+pub fn update(self: *Paddle, delta: f32) void {
     if (sf.window.keyboard.isKeyPressed(self.up_key))
         self.rectangle.move(sf.system.Vector2f{ .x = 0, .y = delta * -800 });
     if (sf.window.keyboard.isKeyPressed(self.down_key))

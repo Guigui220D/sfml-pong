@@ -43,7 +43,7 @@ pub fn create(paddles: []const Paddle) !Ball {
     return new;
 }
 
-pub fn destroy(self: Ball) void {
+pub fn destroy(self: *Ball) void {
     self.rectangle.destroy();
 }
 

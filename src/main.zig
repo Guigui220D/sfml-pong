@@ -24,7 +24,7 @@ pub fn main() anyerror!void {
         try Paddle.create(775, sf.keyboard.KeyCode.Up, sf.keyboard.KeyCode.Down)
     };
     defer {
-        for (paddles) |p|
+        for (paddles) |*p|
             p.destroy();
     }
     var ball = try Ball.create(paddles[0..]);
@@ -47,7 +47,6 @@ pub fn main() anyerror!void {
     score_text.setOutlineColor(sf.Color.Black);
     score_text.setOutlineThickness(2);
     score_text.setPosition(.{ .x = 400, .y = 30 });
-    var score_buf: [32]u8 = undefined;
 
     var pause_text = try sf.Text.createWithText("Press space to play pong", font, 50);
     defer pause_text.destroy();
@@ -82,17 +81,14 @@ pub fn main() anyerror!void {
         if (score.update_score) {
             pause = true;
             score.update_score = false;
-            const str = try std.fmt.bufPrintZ(score_buf[0..], "{} : {}", .{ score.left_score, score.right_score });
-            score_text.setString(str);
-            const bounds = score_text.getGlobalBounds();
-            const size = sf.Vector2f{ .x = bounds.width, .y = bounds.height };
-            score_text.setOrigin(size.scale(0.5));
+            try score_text.setStringFmt("{} : {}", .{ score.left_score, score.right_score });
+            score_text.centerOrigin();
         }
 
         var delta = clock.restart().asSeconds();
 
         if (!pause) {
-            for (paddles) |p|
+            for (paddles) |*p|
                 p.update(delta);
 
             ball.update(delta);
