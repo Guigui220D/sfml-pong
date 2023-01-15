@@ -1,10 +1,11 @@
 const std = @import("std");
 const sf = struct {
-    pub usingnamespace @import("sfml");
-    pub usingnamespace sf.window;
-    pub usingnamespace sf.graphics;
-    pub usingnamespace sf.audio;
-    pub usingnamespace sf.system;
+    const sfml = @import("sfml");
+    pub usingnamespace sfml;
+    pub usingnamespace sfml.window;
+    pub usingnamespace sfml.graphics;
+    pub usingnamespace sfml.audio;
+    pub usingnamespace sfml.system;
 };
 
 const score = @import("score.zig");

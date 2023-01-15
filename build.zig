@@ -1,4 +1,5 @@
 const Builder = @import("std").build.Builder;
+const sfml = @import("zig-sfml-wrapper/build.zig");
 
 pub fn build(b: *Builder) void {
     // Standard target options allows the person running `zig build` to choose
@@ -12,14 +13,8 @@ pub fn build(b: *Builder) void {
     const mode = b.standardReleaseOptions();
 
     const exe = b.addExecutable("sfml", "src/main.zig");
-    exe.linkLibC();
-    exe.addPackagePath("sfml", "sfml-wrapper/src/sfml/sfml.zig");
-    exe.addLibPath("csfml/lib/msvc/");
-    exe.linkSystemLibrary("csfml-graphics");
-    exe.linkSystemLibrary("csfml-system");
-    exe.linkSystemLibrary("csfml-window");
-    exe.linkSystemLibrary("csfml-audio");
-    exe.addIncludeDir("csfml/include/");
+    exe.addPackage(sfml.pkg("sfml"));
+    sfml.link(exe);
     exe.setTarget(target);
     exe.setBuildMode(mode);
     exe.install();
