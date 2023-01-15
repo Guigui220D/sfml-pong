@@ -1,6 +1,7 @@
 const sf = struct {
-    pub usingnamespace @import("sfml");
-    pub usingnamespace sf.graphics;
+    const sfml = @import("sfml");
+    pub usingnamespace sfml;
+    pub usingnamespace sfml.graphics;
 };
 
 const Paddle = @This();

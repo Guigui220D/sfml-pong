@@ -1,8 +1,9 @@
 const sf = struct {
-    pub usingnamespace @import("sfml");
-    pub usingnamespace sf.system;
-    pub usingnamespace sf.graphics;
-    pub usingnamespace sf.audio;
+    const sfml = @import("sfml");
+    pub usingnamespace sfml;
+    pub usingnamespace sfml.graphics;
+    pub usingnamespace sfml.audio;
+    pub usingnamespace sfml.system;
 };
 
 const Paddle = @import("Paddle.zig");
