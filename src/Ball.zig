@@ -32,12 +32,8 @@ pub fn create(paddles: []const Paddle) !Ball {
     rect.setOrigin(.{ .x = 10, .y = 10 });
     rect.setFillColor(sf.Color.White);
     rect.setTexture(Ball.texture.?);
-    
-    var new = Ball {
-        .rectangle = rect,
-        .velocity = undefined,
-        .paddles = paddles
-    };
+
+    var new = Ball{ .rectangle = rect, .velocity = undefined, .paddles = paddles };
 
     new.reset();
 
@@ -54,9 +50,9 @@ fn reset(self: *Ball) void {
 }
 
 pub fn update(self: *Ball, delta: f32) void {
-    var prev_x = self.rectangle.getPosition().x;
+    const prev_x = self.rectangle.getPosition().x;
     self.rectangle.move(self.velocity.scale(delta));
-    
+
     var pos = self.rectangle.getPosition();
     // Wall collisions
     if (pos.y < 5) {
@@ -73,7 +69,7 @@ pub fn update(self: *Ball, delta: f32) void {
             hit_sound.play();
             pos.x = prev_x;
             self.velocity.x *= -1.04;
-        }  
+        }
     }
 
     // Point scored

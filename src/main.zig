@@ -20,12 +20,9 @@ pub fn main() anyerror!void {
     defer window.destroy();
     window.setFramerateLimit(60);
 
-    var paddles = [_]Paddle {
-        try Paddle.create(25, sf.keyboard.KeyCode.Z, sf.keyboard.KeyCode.S),
-        try Paddle.create(775, sf.keyboard.KeyCode.Up, sf.keyboard.KeyCode.Down)
-    };
+    var paddles = [_]Paddle{ try Paddle.create(25, sf.keyboard.KeyCode.Z, sf.keyboard.KeyCode.S), try Paddle.create(775, sf.keyboard.KeyCode.Up, sf.keyboard.KeyCode.Down) };
     defer {
-        for (paddles) |*p|
+        for (&paddles) |*p|
             p.destroy();
     }
     var ball = try Ball.create(paddles[0..]);
@@ -35,7 +32,7 @@ pub fn main() anyerror!void {
     defer background_tex.destroy();
     var background = try sf.Sprite.createFromTexture(background_tex);
     defer background.destroy();
-    background.setOrigin(.{.x = 200, .y = 150});
+    background.setOrigin(.{ .x = 200, .y = 150 });
 
     var font = try sf.Font.createFromFile("Clickuper.ttf");
     defer font.destroy();
@@ -60,7 +57,6 @@ pub fn main() anyerror!void {
         const size = sf.Vector2f{ .x = bounds.width, .y = bounds.height };
         pause_text.setOrigin(size.scale(0.5));
     }
-    
 
     var pause: bool = true;
 
@@ -75,7 +71,7 @@ pub fn main() anyerror!void {
                     if (kev.code == sf.keyboard.KeyCode.Space)
                         pause = !pause;
                 },
-                else => {}
+                else => {},
             }
         }
 
@@ -86,10 +82,10 @@ pub fn main() anyerror!void {
             score_text.centerOrigin();
         }
 
-        var delta = clock.restart().asSeconds();
+        const delta = clock.restart().asSeconds();
 
         if (!pause) {
-            for (paddles) |*p|
+            for (&paddles) |*p|
                 p.update(delta);
 
             ball.update(delta);
@@ -104,7 +100,7 @@ pub fn main() anyerror!void {
         window.draw(ball.rectangle, null);
         window.draw(score_text, null);
         if (pause)
-        window.draw(pause_text, null);
+            window.draw(pause_text, null);
         window.display();
     }
 }

@@ -1,3 +1,0 @@
-[submodule "zig-sfml-wrapper"]
-	path = zig-sfml-wrapper
-	url = git@github.com:Guigui220D/zig-sfml-wrapper.git
