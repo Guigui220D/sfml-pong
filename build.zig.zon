@@ -16,8 +16,8 @@
     // internet connectivity.
     .dependencies = .{
         .sfml = .{
-            .url = "https://github.com/Guigui220D/zig-sfml-wrapper/archive/2fefbb4e4b5f08fb7e60b918672dd6653e7e8637.tar.gz",
-            .hash = "1220c2f936cff4d57310f80d1f2577615b360c72c4707c19b84efc04e9115948586a",
+            .url = "https://github.com/Guigui220D/zig-sfml-wrapper/archive/a4d329a387d4959cf2ee9cb23671948121f0eea9.tar.gz",
+            .hash = "1220c7e12ea2d543a341a846418d515bf308fa12fde0856943c5567d8e6a2864d9aa",
         },
     },
     .paths = .{

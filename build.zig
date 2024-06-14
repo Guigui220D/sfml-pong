@@ -14,10 +14,6 @@ pub fn build(b: *std.Build) void {
 
     const dep = b.dependency("sfml", .{}).module("sfml");
     exe.root_module.addImport("sfml", dep);
-    // Necessary when the includes and libs are not available system wide, change the paths to what you want if that's the case
-    // TODO: how to make that more convinient?
-    dep.addIncludePath(b.path("csfml/include/"));
-    exe.addLibraryPath(b.path("csfml/lib/msvc/"));
     sfml.link(exe);
 
     const run = b.addRunArtifact(exe);
